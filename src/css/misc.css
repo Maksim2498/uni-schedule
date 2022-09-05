@@ -5,5 +5,10 @@ html, body {
 body {
     padding: 0;
     margin: 0;
-    overflow-y: hidden
+    overflow-y: hidden;
+    background-color: black
+}
+
+* {
+    color: white    
 }
