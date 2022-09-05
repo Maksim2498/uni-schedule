@@ -1,4 +1,3 @@
-export const TODAY      = new Date()
 export const WEEK_COUNT = 17
 export const DAY_NAMES  = ["Понедельник", "Вторник", "Среда", "Чертверг", "Пятница", "Суббота", "Воскресенье", "Неизвестно"]
 export const FIRST_DAY  = new Date("September 1, 2022")

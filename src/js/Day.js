@@ -22,7 +22,7 @@ export default class Day {
     }
 
     static get currentNumber() {
-        const difference = c.TODAY - c.FIRST_DAY
+        const difference = Date.now() - c.FIRST_DAY
         const second     = difference / 1000
         const minute     = second     / 60
         const hour       = minute     / 60
@@ -32,7 +32,7 @@ export default class Day {
     }
 
     static get todayNumber() {
-        let number = c.TODAY.getDay() - 1
+        let number = new Date().getDay() - 1
         return number === -1 ? 6 : number
     }
 }

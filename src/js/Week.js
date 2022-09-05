@@ -42,7 +42,7 @@ export default class Week {
     }
 
     get today() {
-        return this.days[c.TODAY.getDay() - 1]
+        return this.days[new Date().getDay() - 1]
     }
 
     render() {
