@@ -10,5 +10,6 @@ body {
 }
 
 * {
-    color: white    
+    color: white;
+    font-family: sans-serif
 }

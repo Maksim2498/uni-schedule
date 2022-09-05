@@ -17,6 +17,7 @@ table {
 
 table caption {
     font-size: 2rem;
+    margin: .5em
 }
 
 tr:nth-child(odd) {
