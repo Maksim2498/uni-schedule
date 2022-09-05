@@ -1,7 +1,18 @@
 header {
     border-bottom: thin solid slategray;
     font-size: 1.5em;
-    height: 1.5em
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+    position: sticky;
+    background-color: black;
+    top: 0;
+    bottom: 0
+}
+
+header > * {
+    margin: 0 1em
 }
 
 header input {
@@ -10,24 +21,16 @@ header input {
     border-radius: .5em
 }
 
-header .current-week,
-header .week-selector {
-    position: absolute;
-    top: .25em
-}
-
-header .current-week {
-    left: 5em
-}
-
-header .week-selector {
-    right: 5em
-}
-
 header h1 {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
     font-size: 1.5em;
-    margin: 0
+}
+
+header .week-selector,
+header .current-week {
+    margin-top: .25em
+}
+
+header #week-selector {
+    position: relative;
+    top: -.25em
 }
