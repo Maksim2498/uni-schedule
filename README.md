@@ -1,4 +1,4 @@
-# Simple Schedule
+# Uni Schedule
 
 ![Preview](/images/preview.png)
 
