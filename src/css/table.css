@@ -20,7 +20,7 @@ table caption {
 }
 
 tr:nth-child(odd) {
-    background-color: gray
+    background-color: dimgray
 }
 
 th, td {
