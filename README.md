@@ -1,5 +1,7 @@
 # Simple Schedule
 
+![Preview](/images/preview.png)
+
 ## Index
 
 - [Index](#index);
