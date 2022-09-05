@@ -17,4 +17,6 @@ altering SCHEDULE constant in [constants file](/src/js/consts.js).
 ## Running
 
 To run this web-app just run [run.sh file](/run.sh)
-and web-app will be available at [localhost:8000](http://localhost:8000).
+or [run.bat file](/run.bat) depending on your OS (Unix-like
+or Windows respectively) and web-app will be available
+at [localhost:8000](http://localhost:8000).
