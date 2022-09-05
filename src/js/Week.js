@@ -46,11 +46,11 @@ export default class Week {
     }
 
     render() {
-        const tableElement = document.createElement("table")
+        const tableElement   = document.createElement("table")
+        tableElement.caption = this.#renderCaption()
 
-        tableElement.className = "week"
-        tableElement.caption   = this.#renderCaption()
-        tableElement.appendChild(this.#renderHeaders())
+        const tBodyElement = tableElement.createTBody()
+        tBodyElement.appendChild(this.#renderHeaders())
 
         const nextClass   = this.#nextClass()
         const todayNumber = Day.todayNumber 
@@ -60,7 +60,7 @@ export default class Week {
             const day             = this.days[i]
             const today           = current && todayNumber === i
             const nextClassNumber = current && nextClass.day === day ? nextClass.number : -1
-            this.#renderDay({ tableElement, day, today, nextClassNumber })
+            this.#renderDay({ tBodyElement, day, today, nextClassNumber })
         }
 
         return tableElement
@@ -92,12 +92,12 @@ export default class Week {
     }
 
     #renderDay(config) {
-        const { tableElement, day, today, nextClassNumber } = config
+        const { tBodyElement, day, today, nextClassNumber } = config
 
         for (let classNumber = 0; classNumber < 6; ++classNumber) {
             const next         = classNumber === nextClassNumber 
             const classElement = this.#renderClass({day, classNumber, next, today})
-            tableElement.appendChild(classElement)
+            tBodyElement.appendChild(classElement)
         }
     }
 
