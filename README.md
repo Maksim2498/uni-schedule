@@ -16,7 +16,7 @@ altering SCHEDULE constant in [constants file](/src/js/consts.js).
 
 ## Running
 
-Firstly, you need to install [Python](https://www.python.org/downloads/)
+Firstly, you need to [install Python](https://www.python.org/downloads/)
 if you don't have one. Scondly, run [run.sh file](/run.sh)
 or [run.bat file](/run.bat) depending on your OS (Unix-like
 or Windows respectively) and web-app will be available
