@@ -6,7 +6,8 @@ header {
 
 header input {
     width: 3em;
-    color: black
+    color: black;
+    border-radius: .5em
 }
 
 header .current-week,
