@@ -12,7 +12,7 @@ header {
 }
 
 header > * {
-    margin: 0 1em
+    margin: .25em 1em
 }
 
 header input {
@@ -23,6 +23,7 @@ header input {
 
 header h1 {
     font-size: 1.5em;
+    text-align: center
 }
 
 header .week-selector,
