@@ -1,0 +1,8 @@
+main {
+    height: calc(100% - 1.5em);
+    overflow: scroll
+}
+
+main .extra-space {
+    height: 100%
+}

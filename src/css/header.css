@@ -1,0 +1,31 @@
+header {
+    border-bottom: thin solid;
+    font-size: 1.5em;
+    height: 1.5em
+}
+
+header input {
+    width: 3em
+}
+
+header .current-week,
+header .week-selector {
+    position: absolute;
+    top: .25em
+}
+
+header .current-week {
+    left: 5em
+}
+
+header .week-selector {
+    right: 5em
+}
+
+header h1 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5em;
+    margin: 0
+}

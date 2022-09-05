@@ -1,0 +1,33 @@
+table.week, th, td {
+    border: thin solid
+}
+
+table, th, td {
+    border-collapse: collapse
+}
+
+table.week {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%)
+}
+
+table.week caption {
+    font-size: 2rem;
+}
+
+table.week tr:nth-child(even) {
+    background-color: lightgray
+}
+
+th, td {
+    padding: 1rem
+}
+
+td.today {
+    background-color: yellow
+}
+
+tr.next {
+    background-color: red
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/misc.css">
+        <link rel="stylesheet" href="/css/table.css">
+        <title>Расписание</title>
+    </head>
+    <body>
+        <header>
+            <h1> Расписание </h1>
+            <span class="current-week">
+                Текущая неделя: <span id="current-week"></span>
+            </span>
+            <span class="week-selector">
+                Неделя: <input type="number" min=1 id="week-selector">
+            </span>
+        </header>
+        <main>
+            <div id="schedule"></div>
+            <div class="extra-space"></div>
+        </main>
+        <script src="/js/main.js" type="module"></script>
+    </body>
+</html>
