@@ -5,10 +5,14 @@ header {
     justify-content: space-around;
     flex-wrap: wrap;
     align-items: center;
-    position: sticky;
     background-color: black;
-    top: 0;
-    bottom: 0
+}
+
+@media (min-width: 961px) {
+    header {
+        position: sticky;
+        top: 0
+    }
 }
 
 header > * {
