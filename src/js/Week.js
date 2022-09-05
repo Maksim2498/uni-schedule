@@ -101,13 +101,13 @@ export default class Week {
         }
     }
 
-    #nextClass(day = this.today) {
+    #nextClass(day = this.today, daysDelta = 0) {
         const classes = day.classes 
 
         for (let i = 0; i < 6; ++i) {
             var [, end] = c.CLASS_TIME[i]
 
-            end = timeStringToDate(end)
+            end = timeStringToDate(end, daysDelta)
             
             if (Date.now() >= end || classes[i].subject === "")
                 continue
@@ -117,15 +117,16 @@ export default class Week {
 
         const nextDay = this.days[day.number >= 5 ? 0 : day.number + 1]
 
-        return this.#nextClass(nextDay)
+        return this.#nextClass(nextDay, daysDelta + 1)
 
-        function timeStringToDate(time) {
+        function timeStringToDate(time, addDays) {
             var [h, m] = time.split(":")
 
             h = Number(h)
             m = Number(m)
 
             const now = new Date()
+            now.setDate(now.getDate() + addDays)
             now.setHours(h)
             now.setMinutes(m)
 
