@@ -23,7 +23,7 @@ export default class Week {
     }
 
     get even() {
-        return number % 2 == 0
+        return this.number % 2 == 0
     }
 
     get current() {
