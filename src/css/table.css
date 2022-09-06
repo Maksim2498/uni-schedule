@@ -26,7 +26,9 @@ tr:nth-child(odd) {
 }
 
 th, td {
-    padding: 1rem
+    padding: 1rem;
+    text-align: center;
+    border: thin solid slategray
 }
 
 td.today {
@@ -37,8 +39,4 @@ td.today {
 
 tr.next {
     background-color: firebrick
-}
-
-th, td {
-    border: thin solid slategray
 }
