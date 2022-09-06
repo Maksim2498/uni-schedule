@@ -15,7 +15,7 @@ export default class Week {
     }
 
     get startDate() {
-        return dateAfterNDays(c.FIRST_DAY, 7 * this.number)
+        return dateAfterNDays(c.FIRST_DAY, 7 * this.number - c.FIRST_DAY.getDay() + 1)
     }
 
     get endDate() {
@@ -163,7 +163,7 @@ export default class Week {
     }
 
     #dateToString(date) {
-        return `${date.getMonth() + 1}.${date.getDate()}`
+        return `${date.getDate()}.${date.getMonth() + 1}`
     }
 }
 
