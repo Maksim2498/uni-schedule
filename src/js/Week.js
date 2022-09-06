@@ -1,6 +1,7 @@
 import Day from "./Day.js"
 
-import * as c from "./consts.js"
+import * as c  from "./consts.js"
+import * as ed from "./edate.js"
 
 export default class Week {
     constructor(config = {}) {
@@ -15,11 +16,11 @@ export default class Week {
     }
 
     get startDate() {
-        return dateAfterNDays(c.FIRST_DAY, 7 * this.number - c.FIRST_DAY.getDay() + 1)
+        return ed.withDateAdded(c.FIRST_DAY, 7 * this.number - c.FIRST_DAY.getDay() + 1)
     }
 
     get endDate() {
-        return dateAfterNDays(this.startDate, 6)
+        return ed.addDate(this.startDate, 6)
     }
 
     get even() {
@@ -68,8 +69,8 @@ export default class Week {
 
     #renderCaption() {
         const caption = document.createElement("caption")
-        const start   = this.#dateToString(this.startDate)
-        const end     = this.#dateToString(this.endDate)
+        const start   = ed.toShortString(this.startDate)
+        const end     = ed.toShortString(this.endDate)
         caption.innerHTML = `${this.number + 1} неделя (${start} - ${end})`
         return caption
     }
@@ -126,7 +127,7 @@ export default class Week {
             m = Number(m)
 
             const now = new Date()
-            now.setDate(now.getDate() + addDays)
+            ed.addDate(now, addDays)
             now.setHours(h)
             now.setMinutes(m)
 
@@ -145,8 +146,10 @@ export default class Week {
 
         var first = ""
 
-        if (classNumber == 0) 
-            first = `<td rowspan=6 ${today ? 'class="today"' : ""}>${day.name}</td>`
+        if (classNumber == 0) {
+            const date = ed.addDate(this.startDate, day.number)
+            first = `<td rowspan=6 ${today ? 'class="today"' : ""}>${day.name}<br>(${ed.toShortString(date)})</td>`
+        }
 
         classElement.innerHTML = `
             ${first}
@@ -161,14 +164,4 @@ export default class Week {
 
         return classElement
     }
-
-    #dateToString(date) {
-        return `${date.getDate()}.${date.getMonth() + 1}`
-    }
-}
-
-function dateAfterNDays(date, n) {
-    const next = new Date(date)
-    next.setDate(next.getDate() + n)
-    return next
 }
