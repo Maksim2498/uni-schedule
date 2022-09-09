@@ -1,3 +1,4 @@
+import Clock  from "./Clock.js"
 import Day    from "./Day.js"
 import Lesson from "./Lesson.js"
 import Week   from "./Week.js"
@@ -17,6 +18,11 @@ weekSelectorElement.max      = Week.COUNT
 
 const currentWeekElement     = document.getElementById("current-week")
 currentWeekElement.innerHTML = weekNumber + 1 
+
+const clockElement = document.getElementById("clock")
+const clock        = new Clock(clockElement)
+setInterval(() => clock.redraw(), 500)
+clock.redraw()
 
 updateWeek()
 

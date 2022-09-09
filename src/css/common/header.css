@@ -25,8 +25,9 @@ header h1 {
     font-size: 2rem
 }
 
-.logo img {
-    width: 5rem
+.logo .clock {
+    width: 5rem;
+    height: 5rem
 }
 
 .logo h1 {
