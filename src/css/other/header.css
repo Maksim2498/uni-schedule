@@ -1,0 +1,8 @@
+@import "/css/common/header.css";
+
+header {
+    position: sticky;
+    top: 0;
+    background-color: var(--background-color);
+    z-index: 1
+}

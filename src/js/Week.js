@@ -1,9 +1,18 @@
-import Day from "./Day.js"
+import Day    from "./Day.js"
+import Lesson from "./Lesson.js"
 
-import * as c  from "./consts.js"
 import * as ed from "./edate.js"
 
 export default class Week {
+    static COUNT = 17
+
+    static #number = null
+
+    #beginDate  = null
+    #endDate    = null
+    #nextLesson = null
+    #element    = null
+
     constructor(config = {}) {
         this.number = config.number ?? 0
         this.days   = [] 
@@ -11,157 +20,157 @@ export default class Week {
         for (let i = 0; i < 6; ++i) {
             const day    = config.days?.[i] ?? new Day(i)
             day.number   = i
+            day.week     = this
             this.days[i] = day
         }
     }
 
-    get startDate() {
-        return ed.withDateAdded(c.FIRST_DAY, 7 * this.number - c.FIRST_DAY.getDay() + 1)
+    update() {
+        Week.update()
+        this.#updateBeginDate()
+        this.#updateEndDate()
+        this.#updateNextLesson()
+
+        for (const day of this.days)
+            day.update()
+
+        this.#updateElement()
     }
 
-    get endDate() {
-        return ed.addDate(this.startDate, 6)
+    static update() {
+        this.#updateNumber()
     }
 
-    get even() {
-        return this.number % 2 == 0
-    }
-
-    get current() {
-        return Week.currentNumber === this.number 
-    }
-
-    static get currentNumber() {
-        const day = Day.currentNumber
+    static #updateNumber() {
+        const day = Day.number
 
         if (day % 7 === 6)
             day += 1
 
         const week = day / 7
 
-        return Math.floor(week)
+        this.#number = Math.floor(week)
     }
 
-    get today() {
-        return this.days[new Date().getDay() - 1]
+    #updateBeginDate() {
+        this.#beginDate = ed.withDateAdded(Day.FIRST_DATE, 7 * this.number - ed.weekDay(Day.FIRST_DATE))
     }
 
-    render() {
-        const tableElement   = document.createElement("table")
-        tableElement.caption = this.#renderCaption()
+    #updateEndDate() {
+        this.#endDate = ed.withDateAdded(this.#beginDate, 6)
+    }
 
-        const tBodyElement = tableElement.createTBody()
-        tBodyElement.appendChild(this.#renderHeaders())
+    #updateNextLesson() {
+        this.#nextLesson = this.current ? this.#evalNextLesson() : undefined
+    }
 
-        const nextClass   = this.#nextClass()
-        const todayNumber = Day.todayNumber 
-        const current     = this.current
+     #evalNextLesson(day = this.today, daysDelta = 0) {
+        const lessons = day.lessons
 
-        for (let i = 0; i < 6; ++i) {
-            const day             = this.days[i]
-            const today           = current && todayNumber === i
-            const nextClassNumber = current && nextClass.day === day ? nextClass.number : -1
-            this.#renderDay({ tBodyElement, day, today, nextClassNumber })
+        for (const lesson of day.lessons) {
+            const endDate = ed.withTime(lesson.end)
+
+            ed.addDate(endDate, daysDelta)
+
+            if (Date.now() >= endDate || lesson.free)
+                continue
+
+            return lesson
         }
 
-        return tableElement
+        if (day.number >= 5)
+            return undefined
+
+         const nextDay = this.days[day.number + 1]
+
+        return this.#evalNextLesson(nextDay, daysDelta + 1)
+    }
+
+    #updateElement() {
+        this.#element           = document.createElement("table")
+        this.#element.className = "week"
+        this.#element.caption   = this.#renderCaption()
+        this.#element.tHead     = this.#renderTHead()
+        this.#element.appendChild(this.#renderTBody())
     }
 
     #renderCaption() {
         const caption = document.createElement("caption")
-        const start   = ed.toShortString(this.startDate)
+        const start   = ed.toShortString(this.beginDate)
         const end     = ed.toShortString(this.endDate)
         caption.innerHTML = `${this.number + 1} неделя (${start} - ${end})`
         return caption
     }
 
-    #renderHeaders() {
-        const headers = document.createElement("tr")
+    #renderTHead() {
+        const element = document.createElement("thead")
 
-        headers.innerHTML = `
-            <th>День недели</th>
-            <th>% пары</th>
-            <th>Начало</th>
-            <th>Конец</th>
-            <th>Дисциплина</th>
-            <th>Вид занятия</th>
-            <th>ФИО преподавателя</th>
-            <th>№ аудитории</th>
+        element.innerHTML = `
+            <tr>
+                <th>День недели</th>
+                <th>№ пары</th>
+                <th>Начало</th>
+                <th>Конец</th>
+                <th>Дисциплина</th>
+                <th>Вид занятия</th>
+                <th>ФИО преподавателя</th>
+                <th>№ аудитории</th>
+            </tr>
         `
 
-        return headers
+        return element 
     }
 
-    #renderDay(config) {
-        const { tBodyElement, day, today, nextClassNumber } = config
+    #renderTBody() {
+        const element = document.createElement("tbody")
 
-        for (let classNumber = 0; classNumber < 6; ++classNumber) {
-            const next         = classNumber === nextClassNumber 
-            const classElement = this.#renderClass({day, classNumber, next, today})
-            tBodyElement.appendChild(classElement)
-        }
+        for (const day of this.days) 
+            for (const dayElement of day.elements)
+                element.appendChild(dayElement)
+
+        return element
     }
 
-    #nextClass(day = this.today, daysDelta = 0) {
-        const classes = day.classes 
+    get beginDate() {
+        if (this.#beginDate === null)
+            this.update()
 
-        for (let i = 0; i < 6; ++i) {
-            var [, end] = c.CLASS_TIME[i]
-
-            end = timeStringToDate(end, daysDelta)
-            
-            if (Date.now() >= end || classes[i].subject === "")
-                continue
-
-            return { number: i, day } 
-        }
-
-        const nextDay = this.days[day.number >= 5 ? 0 : day.number + 1]
-
-        return this.#nextClass(nextDay, daysDelta + 1)
-
-        function timeStringToDate(time, addDays) {
-            var [h, m] = time.split(":")
-
-            h = Number(h)
-            m = Number(m)
-
-            const now = new Date()
-            ed.addDate(now, addDays)
-            now.setHours(h)
-            now.setMinutes(m)
-
-            return now
-        }
+        return new Date(this.#beginDate)
     }
 
-    #renderClass(config) {
-        const { day, classNumber, next, today     } = config
-        const { subject, type, teacher, classroom } = day.classes[classNumber]
-        const [start, end]                          = c.CLASS_TIME[classNumber]
-        const classElement                          = document.createElement("tr")
+    get endDate() {
+        if (this.#endDate === null)
+            this.update()
 
-        if (next) 
-            classElement.className = "next"
+        return new Date(this.#endDate)
+    }
 
-        var first = ""
+    get current() {
+        return Week.number === this.number 
+    }
 
-        if (classNumber == 0) {
-            const date = ed.addDate(this.startDate, day.number)
-            first = `<td rowspan=6 ${today ? 'class="today"' : ""}>${day.name}<br>(${ed.toShortString(date)})</td>`
-        }
+    static get number() {
+        if (this.#number === null)
+            this.update()
 
-        classElement.innerHTML = `
-            ${first}
-            <td>${classNumber + 1}</td>
-            <td>${start}</td>
-            <td>${end}</td>
-            <td>${subject}</td>
-            <td>${type}</td>
-            <td>${teacher}</td>
-            <td>${classroom}</td>
-        `
+        return this.#number
+    }
 
-        return classElement
+    get today() {
+        return this.days[ed.weekDay()]
+    }
+
+    get element() {
+        if (this.#element === null)
+            this.update()
+
+        return this.#element
+    }
+
+    get nextLesson() {
+        if (this.#nextLesson === null)
+            this.update()
+
+        return this.#nextLesson
     }
 }

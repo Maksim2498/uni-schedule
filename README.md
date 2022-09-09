@@ -12,7 +12,7 @@
 
 This is my uni shcedule rendering web-app wirtten myself
 for myself. You can customize it for your own usage
-altering SCHEDULE constant in [constants file](/src/js/consts.js).
+altering [shcedule file](/src/js/shcedule.js).
 
 ## Running
 

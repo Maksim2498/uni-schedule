@@ -1,38 +1,102 @@
-import * as c from "./consts.js"
+import Lesson from "./Lesson.js"
+
+import * as ed from "./edate.js"
 
 export default class Day {
-    constructor(classes = []) {
-        this.classes = []
+    static FIRST_DATE = new Date("September 1, 2022")
+    static NAMES      = [
+        "Понедельник", 
+        "Вторник",
+        "Среда", 
+        "Чертверг", 
+        "Пятница", 
+        "Суббота", 
+        "Воскресенье"
+    ]
 
-        for (let i = 0; i < 6; ++i)
-            this.classes[i] = {
-                subject:   classes?.[i]?.subject   ?? "",
-                type:      classes?.[i]?.type      ?? "",
-                teacher:   classes?.[i]?.teacher   ?? "",
-                classroom: classes?.[i]?.classroom ?? ""
-            }
+    static #number = null
+
+    #today    = null
+    #elements = null
+
+    constructor(lessons = []) {
+        this.lessons = []
+
+        for (let i = 0; i < Lesson.COUNT; ++i) {
+            const lesson    = lessons[i] ?? new Lesson()
+            lesson.number   = i
+            lesson.day      = this
+            this.lessons[i] = lesson 
+        }
+    }
+
+    update() {
+        Day.update()
+        this.#updateToday()
+
+        for (const lesson of this.lessons)
+            lesson.update()
+
+        this.#updateElements()
+    }
+
+    static update() {
+        this.#updateNumber()
+    }
+
+    static #updateNumber() {
+        this.#number = this.dateNumber(Date.now())
+    }
+
+    #updateToday() {
+        const date = this.week?.beginDate ?? new Date()
+        ed.addDate(date, this.number ?? 0)
+        this.#today = Day.dateNumber(date) === Day.number
+    }
+
+    #updateElements() {
+        this.#elements = []
+
+        for (const lesson of this.lessons)
+            this.#elements.push(lesson.element)
     }
 
     get name() {
-        return c.DAY_NAMES[this.number ?? 7]
+        return Day.NAMES[this.number ?? 0]
     }
 
-    get currentNumber() {
-        return (this.number ?? -1) === Day.currentNumber
+    get today() {
+        if (this.#today === null)
+            this.update()
+
+        return this.#today
     }
 
-    static get currentNumber() {
-        const difference = Date.now() - c.FIRST_DAY
+    get elements() {
+        if (this.#elements === null)
+            this.update()
+
+        return this.#elements
+    }
+
+    static get number() {
+        if (this.#number === null)
+            this.update()
+
+        return this.#number
+    }
+
+    static dateNumber(date) {
+        const difference = date - this.FIRST_DATE
         const second     = difference / 1000
         const minute     = second     / 60
         const hour       = minute     / 60
-        const day        = hour       / 24 + c.FIRST_DAY.getDay() - 1
+        const day        = hour       / 24 + ed.weekDay(this.FIRST_DATE)
 
-        return day
+        return Math.floor(day)
     }
 
-    static get todayNumber() {
-        let number = new Date().getDay() - 1
-        return number === -1 ? 6 : number
+    get free() {
+        return this.lessons.every(l => l.free)
     }
 }

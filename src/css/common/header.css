@@ -1,0 +1,36 @@
+@import "/css/common/variables.css";
+
+header {
+    border-bottom: thin solid var(--border-color);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap
+}
+
+header input {
+    color: var(--background-color);
+    position: relative;
+    top: -.25rem;
+    width: 2.5rem;
+    border-radius: .25rem
+}
+
+header > * {
+    padding: .5rem 0;
+    font-size: 1.5rem
+}
+
+header h1 {
+    font-size: 2rem
+}
+
+.logo img {
+    width: 5rem
+}
+
+.logo h1 {
+    display: inline;
+    position: relative;
+    top: -1.5rem
+}

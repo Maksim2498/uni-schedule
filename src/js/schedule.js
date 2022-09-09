@@ -1,15 +1,4 @@
-export const WEEK_COUNT = 17
-export const DAY_NAMES  = ["Понедельник", "Вторник", "Среда", "Чертверг", "Пятница", "Суббота", "Воскресенье", "Неизвестно"]
-export const FIRST_DAY  = new Date("September 1, 2022")
-export const CLASS_TIME = [
-    [ "9:00", "10:30"],
-    ["10:40", "12:10"],
-    ["12:40", "14:10"],
-    ["14:20", "15:50"],
-    ["16:20", "17:50"],
-    ["18:00", "19:30"]
-]
-export const SCHEDULE   = [
+export default [
     // Понедельник:
     [],
     // Вторник:

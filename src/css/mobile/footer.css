@@ -1,0 +1,10 @@
+@import "/css/common/variables.css";
+
+footer {
+    color: var(--footer-color);
+    padding: 1em
+}
+
+footer a {
+    color: var(--footer-link-color); 
+}

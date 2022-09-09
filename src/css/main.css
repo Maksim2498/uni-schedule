@@ -1,7 +1,2 @@
-main {
-    overflow: scroll
-}
-
-main .extra-space {
-    height: 50em
-}
+@import "mobile/main.css" (max-width: 960px);
+@import "other/main.css"  (min-width: 961px);

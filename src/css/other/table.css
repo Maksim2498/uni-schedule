@@ -1,0 +1,36 @@
+@import "/css/common/variables.css";
+@import "/css/common/table.css";
+
+table, tr, td, th {
+    border-spacing: .5rem
+}
+
+tr, td, th {
+    border: thin solid var(--border-color)
+}
+
+td, th {
+    padding: .5rem;
+    text-align: center;
+    border-radius: .5rem
+}
+
+table {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%)
+}
+
+tr:nth-child(even) td, th {
+    background-color: var(--even-background-color)
+}
+
+.today {
+    background-color: var(--today-background-color);
+    color: var(--today-color)
+}
+
+.next td:not(:first-child) {
+    background-color: var(--next-background-color);
+    color: var(--next-color)
+}

@@ -1,0 +1,10 @@
+table::after {
+    display: block;
+    content: "";
+    height: 100vh
+}
+
+table caption {
+    font-size: 1.5rem;
+    margin: 1rem
+}

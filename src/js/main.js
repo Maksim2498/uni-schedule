@@ -1,62 +1,71 @@
-import Day  from "./Day.js"
-import Week from "./Week.js"
+import Day    from "./Day.js"
+import Lesson from "./Lesson.js"
+import Week   from "./Week.js"
 
-import * as c from "./consts.js"
+import schedule from "./schedule.js"
 
-const weeks           = createWeeks(c.SCHEDULE)
-const currentWeek     = Week.currentNumber
-const scheduleElement = document.getElementById("schedule")
+import { clamp } from "./emath.js"
+
+const weeks       = createWeeks(schedule)
+const weekNumber  = Week.number
+const mainElement = document.getElementsByTagName("main")[0]
 
 const weekSelectorElement    = document.getElementById("week-selector")
-weekSelectorElement.value    = currentWeek + 1
+weekSelectorElement.value    = weekNumber + 1
 weekSelectorElement.onchange = updateWeek
-weekSelectorElement.max      = c.WEEK_COUNT
+weekSelectorElement.max      = Week.COUNT 
 
 const currentWeekElement     = document.getElementById("current-week")
-currentWeekElement.innerHTML = currentWeek + 1
+currentWeekElement.innerHTML = weekNumber + 1 
 
 updateWeek()
 
 function updateWeek() {
-    const weekNumber         = weekSelectorElement.value
-    const week                = weeks[weekNumber - 1]
-    scheduleElement.innerHTML = ""
-    scheduleElement.appendChild(week.render())
+    const weekNumber      = weekSelectorElement.value
+    const weekIndex       = clamp(weekNumber - 1, 0, Week.COUNT - 1)
+    const week            = weeks[weekIndex]
+    mainElement.innerHTML = ""
+    mainElement.appendChild(week.element)
 }
 
 function createWeeks(schedule) {
     const weeks = []
 
-    for (let i = 0; i < c.WEEK_COUNT; ++i) {
-        const isEven = i % 2 != 0
-
-        const days = []
-
-        for (const day of schedule) {
-            const classes = []
-
-            for (const [odd, even] of day) {
-                const item = isEven ? even : odd
-
-                if (item == null
-                 || item.weeks != null && !item.weeks.includes(i)) {
-                    classes.push([]) 
-                    continue
-                }
-
-                classes.push(item)
-            }
-
-            days.push(new Day(classes))
-        }
-
-        const week = new Week({
-            number: i,
-            days
-        }) 
-
+    for (let number = 0; number < Week.COUNT; ++number) {
+        const days = createDays(schedule, number)
+        const week = new Week({ number, days })
         weeks.push(week)
     }
 
     return weeks
+
+    function createDays(schedule, weekNumber) {
+        const days = []
+
+        for (const scheduleDay of schedule) {
+            const lessons = createLessons(scheduleDay, weekNumber)
+            const day     = new Day(lessons)
+            days.push(day)
+        }
+
+        return days
+    }
+
+    function createLessons(day, weekNumber) {
+        const isWeekEven = weekNumber % 2 !== 0 // Because weeks are counted from zero
+        const lessons    = []
+
+        for (const [oddLesson, evenLesson] of day) {
+            const scheduleLesson = isWeekEven ? evenLesson : oddLesson
+            const lessonArg      = skipLesson(scheduleLesson, weekNumber) ? {} : scheduleLesson
+            const lesson         = new Lesson(lessonArg)
+            lessons.push(lesson) 
+        }
+
+        return lessons
+
+        function skipLesson(lesson, weekNumber) {
+            return lesson == null || (lesson.weeks?.includes(weekNumber) ?? false)
+        }
+    }
 }

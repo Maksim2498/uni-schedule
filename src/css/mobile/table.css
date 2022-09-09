@@ -1,0 +1,108 @@
+@import "/css/common/variables.css";
+@import "/css/common/table.css";
+
+/*
+ * +------------+-------+--------------+---+-----------+
+ * | Day Name   | <     | <            | < | <         |
+ * +------------+-------+--------------+---+-----------+
+ * | Day Number | Begin | Subject      | < | Type      |  5x3
+ * +------------+-------+--------------+---+-----------+
+ * | ^          | End   | Teacher Name | < | Classroom |
+ * +------------+-------+--------------+---+-----------+
+ */
+
+.lesson {
+    display: grid;
+    grid-template-columns: 1.5rem 4rem calc(100% - 11rem) 3rem 2rem
+}
+
+/* .5rem */
+
+.lesson .number::before {
+    display: block;
+    position: absolute;
+    content: "";
+    background-color: var(--border-color);
+    border-radius: .125rem;
+    width: .25rem;
+    left: -.125rem;
+    top: 0;
+    bottom: 0
+}
+
+.lesson.next .number::before {
+    background-color: var(--next-background-color)
+}
+
+.lesson > * {
+    position: relative;
+    left: .125rem;
+    top: 50%;
+    transform: translateY(-50%);
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    margin: .5rem 0
+}
+
+.lesson .day-name {
+    grid-column: 1 / 6;
+    grid-row: 1;
+    border-radius: .25rem;
+    background-color: var(--even-background-color);
+    border: thin solid var(--border-color)
+}
+
+.lesson .today {
+    background-color: var(--today-background-color);
+    color: var(--today-color)
+}
+
+.lesson .number {
+    grid-column: 1;
+    grid-row: 2 / 4
+}
+
+.lesson .begin {
+    grid-column: 2;
+    grid-row: 2
+}
+
+.lesson .end {
+    grid-column: 2;
+    grid-row: 3;
+    color: var(--even-color)
+}
+
+.lesson .subject {
+    grid-column: 3 / 5;
+    grid-row: 2;
+    text-align: left
+}
+
+.lesson .type {
+    grid-column: 5;
+    grid-row: 2
+}
+
+.lesson .teacher {
+    grid-column: 3 / 4;
+    grid-row: 3;
+    color: var(--even-color);
+    text-align: left
+}
+
+.lesson .classroom {
+    grid-column: 4 / 6;
+    grid-row: 3;
+    color: var(--even-color);
+    text-align: left
+}
+
+td {
+    text-align: center
+}
+
+thead {
+    display: none
+}

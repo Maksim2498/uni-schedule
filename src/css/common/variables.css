@@ -1,0 +1,17 @@
+:root {
+    --color: white;
+    --background-color: black;
+    --border-color: slategray;
+
+    --footer-color: #222;
+    --footer-link-color: #225;
+
+    --even-color: dimgray;
+    --even-background-color: dimgray;
+
+    --today-color: black;
+    --today-background-color: khaki;
+
+    --next-color: white;
+    --next-background-color: firebrick
+}
