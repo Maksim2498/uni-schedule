@@ -30,7 +30,7 @@ tr:nth-child(even) td, th {
     color: var(--today-color)
 }
 
-.next td:not(:first-child) {
+.next td:not(.day-name) {
     background-color: var(--next-background-color);
     color: var(--next-color)
 }

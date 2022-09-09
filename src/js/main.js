@@ -5,30 +5,76 @@ import Week   from "./Week.js"
 
 import schedule from "./schedule.js"
 
-import { clamp } from "./emath.js"
+import * as ed from "./edate.js"
+import * as em from "./emath.js"
 
-const weeks       = createWeeks(schedule)
-const weekNumber  = Week.number
-const mainElement = document.getElementsByTagName("main")[0]
+const weeks               = createWeeks(schedule)
+const mainElement         = document.getElementsByTagName("main")[0]
+const weekSelectorElement = document.getElementById("week-selector")
+const currentWeekElement  = document.getElementById("current-week")
+const clockElement        = document.getElementById("clock")
+const clock               = new Clock(clockElement)
 
-const weekSelectorElement    = document.getElementById("week-selector")
-weekSelectorElement.value    = weekNumber + 1
-weekSelectorElement.onchange = updateWeek
-weekSelectorElement.max      = Week.COUNT 
+setup()
 
-const currentWeekElement     = document.getElementById("current-week")
-currentWeekElement.innerHTML = weekNumber + 1 
+function setup() {
+    setupClock()
+    setupWeekSelectorElement()
+    setupCurrentWeekElement()
+    setupMainElement()
+    setupUpdate()
+}
 
-const clockElement = document.getElementById("clock")
-const clock        = new Clock(clockElement)
-setInterval(() => clock.redraw(), 500)
-clock.redraw()
+function setupClock() {
+    setInterval(() => clock.redraw(), 500)
+    clock.redraw()
+}
 
-updateWeek()
+function setupWeekSelectorElement() {
+    weekSelectorElement.value    = Week.number + 1
+    weekSelectorElement.onchange = () => displayWeek(weekSelectorElement.value - 1)
+    weekSelectorElement.max      = Week.COUNT 
+}
 
-function updateWeek() {
-    const weekNumber      = weekSelectorElement.value
-    const weekIndex       = clamp(weekNumber - 1, 0, Week.COUNT - 1)
+function setupCurrentWeekElement() {
+    updateCurrentWeek()
+}
+
+function setupMainElement() {
+    displayWeek(Week.number)
+}
+
+function setupUpdate() {
+    const dayMillis   = 1000 * 60 * 60 * 24
+    const todayMillis = ed.millis()
+
+    for (const times of Lesson.TIMES) 
+        for (const time of times) {
+            const millis = ed.timeToMillis(time)
+            let   delta  = millis - todayMillis 
+
+            if (delta < 0)
+                delta += dayMillis
+
+            setTimeout(() => setInterval(updateWeeks, dayMillis), delta)
+        }
+
+    setTimeout(() => setInterval(updateCurrentWeek, dayMillis), dayMillis - todayMillis)
+}
+
+function updateCurrentWeek() {
+    currentWeekElement.innerHTML = Week.number + 1 
+}
+
+function updateWeeks() {
+    for (const week of weeks)
+        week.update()
+
+    displayWeek(weekSelectorElement.value - 1)    
+}
+
+function displayWeek(weekNumber) {
+    const weekIndex       = em.clamp(weekNumber, 0, Week.COUNT - 1)
     const week            = weeks[weekIndex]
     mainElement.innerHTML = ""
     mainElement.appendChild(week.element)
