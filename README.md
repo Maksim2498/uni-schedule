@@ -12,7 +12,7 @@
 
 This is my uni shcedule rendering web-app wirtten myself
 for myself. You can customize it for your own usage
-altering [shcedule file](/src/js/shcedule.js).
+altering [shcedule file](/src/js/schedule.js).
 You can test it [here](http://sched.uni.fominmv.ru).
 
 ## Running
