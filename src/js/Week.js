@@ -42,7 +42,7 @@ export default class Week {
     }
 
     static #updateNumber() {
-        const day = Day.number
+        let day = Day.number
 
         if (day % 7 === 6)
             day += 1
@@ -64,7 +64,10 @@ export default class Week {
         this.#nextLesson = this.current ? this.#evalNextLesson() : undefined
     }
 
-     #evalNextLesson(day = this.today, daysDelta = 0) {
+    #evalNextLesson(day = this.#nextDay, daysDelta = 0) {
+        if (day === undefined)
+            return undefined
+
         const lessons = day.lessons
 
         for (const lesson of day.lessons) {
@@ -78,12 +81,14 @@ export default class Week {
             return lesson
         }
 
-        if (day.number >= 5)
-            return undefined
-
          const nextDay = this.days[day.number + 1]
 
         return this.#evalNextLesson(nextDay, daysDelta + 1)
+    }
+
+    get #nextDay() {
+        const day = this.today
+        return day === undefined ? this.days[0] : day
     }
 
     #updateElement() {
