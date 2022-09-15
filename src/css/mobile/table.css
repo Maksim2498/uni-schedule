@@ -13,7 +13,7 @@
 
 .lesson {
     display: grid;
-    grid-template-columns: 1.5rem 4rem calc(100% - 11rem) 3rem 2rem
+    grid-template-columns: 1.5rem 4rem calc(100% - 12rem) 3rem 3rem
 }
 
 /* .5rem */

@@ -37,7 +37,7 @@ function setupWeekSelectorElement() {
 }
 
 function setupCurrentWeekElement() {
-    updateCurrentWeek()
+    updateCurrentWeekElement()
 }
 
 function setupMainElement() {
@@ -62,7 +62,7 @@ function setupUpdate() {
     setTimeout(() => setInterval(updateCurrentWeek, dayMillis), dayMillis - todayMillis)
 }
 
-function updateCurrentWeek() {
+function updateCurrentWeekElement() {
     currentWeekElement.innerHTML = Week.number + 1 
 }
 

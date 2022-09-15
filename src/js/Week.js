@@ -61,10 +61,10 @@ export default class Week {
     }
 
     #updateNextLesson() {
-        this.#nextLesson = this.current ? this.#evalNextLesson() : undefined
+        this.#nextLesson = this.current ? this.#evalNextLesson(this.#nextDay) : undefined
     }
 
-    #evalNextLesson(day = this.#nextDay, daysDelta = 0) {
+    #evalNextLesson(day, daysDelta = 0) {
         if (day === undefined)
             return undefined
 
@@ -81,7 +81,8 @@ export default class Week {
             return lesson
         }
 
-         const nextDay = this.days[day.number + 1]
+        console.log([day.number, day.number + 1, this.days[day.number + 1]])
+        const nextDay = this.days[day.number + 1]
 
         return this.#evalNextLesson(nextDay, daysDelta + 1)
     }
