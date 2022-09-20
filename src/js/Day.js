@@ -41,6 +41,7 @@ export default class Day {
     }
 
     static update() {
+        Lesson.update()
         this.#updateNumber()
     }
 

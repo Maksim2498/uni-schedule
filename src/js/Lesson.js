@@ -1,15 +1,25 @@
+import Time from "./Time.js"
+
 import * as ed from "./edate.js"
 
 export default class Lesson {
     static COUNT = 6
-    static TIMES = [
-        [ "9:00", "10:30"],
-        ["10:40", "12:10"],
-        ["12:40", "14:10"],
-        ["14:20", "15:50"],
-        ["16:20", "17:50"],
-        ["18:00", "19:30"]
-    ]
+    static TIMES = Lesson.#createTimes()
+
+    static #createTimes() {
+        const times = [
+            [ "9:00", "10:30"],
+            ["10:40", "12:10"],
+            ["12:40", "14:10"],
+            ["14:20", "15:50"],
+            ["16:20", "17:50"],
+            ["18:00", "19:30"]
+        ]
+
+        return times.map(([f, s]) => [Time.fromString(f), Time.fromString(s)])
+    }
+
+    static #number = null
 
     #element = null
 
@@ -26,7 +36,35 @@ export default class Lesson {
     }
 
     static update() {
-        // Added symentry sake
+        this.#updateNumber()
+    }
+
+    static #updateNumber() {
+        this.#number = this.#evalNumber()
+    }
+
+    static #evalNumber() {
+        const currentMilli = Time.current.toMillis()
+
+        for (let i = 0; i < this.TIMES.length; ++i) {
+            const [, end] = this.TIMES[i]
+
+            if (currentMilli < end)
+                return i
+        }
+
+        return 0
+    }
+
+    get current() {
+        return this.number === Lesson.number
+    }
+
+    static get number() {
+        if (this.#number === null)
+            this.update()
+
+        return this.#number
     }
 
     #updateElement() {
@@ -39,15 +77,18 @@ export default class Lesson {
         if (this.free)
             this.#element.classList.add("free")
 
+        if ((this.day?.today ?? false) && this.current)
+            this.#element.classList.add("current")
+
         this.#element.innerHTML = `
             ${this.#renderFirst()}
-            <td class="number"   >${(this.number ?? 0) + 1}</td>
-            <td class="begin"    >${this.begin            }</td>
-            <td class="end"      >${this.end              }</td>
-            <td class="subject"  >${this.subject          }</td>
-            <td class="type"     >${this.type             }</td>
-            <td class="teacher"  >${this.teacher          }</td>
-            <td class="classroom">${this.classroom        }</td>
+            <td class="number"   >${(this.number ?? 0) + 1     }</td>
+            <td class="begin"    >${this.begin.toShortString() }</td>
+            <td class="end"      >${this.end.toShortString()   }</td>
+            <td class="subject"  >${this.subject               }</td>
+            <td class="type"     >${this.type                  }</td>
+            <td class="teacher"  >${this.teacher               }</td>
+            <td class="classroom">${this.classroom             }</td>
         `
     }
 
@@ -58,7 +99,7 @@ export default class Lesson {
         const day        = this.day
         const beginDate  = day?.week?.beginDate ?? new Date() 
         const today      = day?.today           ?? false
-        const className  = renderClassName()
+        const className  = renderClassName.call(this)
         const date       = ed.addDate(beginDate, day?.number ?? 0)
         const dateString = ed.toShortString(date)
 
@@ -67,7 +108,7 @@ export default class Lesson {
         function renderClassName() {
             let className = "day-name"
 
-            if (today)
+            if (today) 
                 className += " today"
 
             switch (day?.number ?? 0) {

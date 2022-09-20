@@ -38,6 +38,7 @@ export default class Week {
     }
 
     static update() {
+        Day.update()
         this.#updateNumber()
     }
 

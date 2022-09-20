@@ -3,8 +3,8 @@ import * as es from "./estyle.js"
 export default class Clock {
     #interval
 
-    constructor(canvas) {
-        this.canvas     = canvas
+    constructor(clockId) {
+        this.canvas     = document.getElementById(clockId)
         this.autoRedraw = true
         this.redraw()
     }
@@ -19,8 +19,10 @@ export default class Clock {
 
         if (val)
             this.#interval = setInterval(() => this.redraw(), 500)
-        else
+        else {
             clearInterval(this.#interval)
+            this.#interval = undefined
+        }
     }
 
     redraw() {

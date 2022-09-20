@@ -34,6 +34,10 @@
     background-color: var(--next-background-color)
 }
 
+.lesson.current .number::before {
+    background-color: var(--current-background-color)
+}
+
 .lesson > * {
     position: relative;
     left: .125rem;

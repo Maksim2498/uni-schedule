@@ -12,6 +12,9 @@
     --today-color: black;
     --today-background-color: khaki;
 
+    --current-color: black;
+    --current-background-color: khaki;
+
     --next-color: white;
     --next-background-color: firebrick
 }
