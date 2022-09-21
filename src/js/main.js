@@ -1,8 +1,12 @@
 import Clock        from "./Clock.js"
 import CurrentWeek  from "./CurrentWeek.js"
 import Updater      from "./Updater.js"
+import Week         from "./Week.js"
 import Weeks        from "./Weeks.js"
 import WeekSelector from "./WeekSelector.js"
+
+if (Week.number >= Week.COUNT)
+    alert("Расписание устарело")
 
 const clock        = new Clock("clock")
 const currentWeek  = new CurrentWeek("current-week")
