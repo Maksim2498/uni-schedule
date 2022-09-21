@@ -81,7 +81,6 @@ export default class Week {
             return lesson
         }
 
-        console.log([day.number, day.number + 1, this.days[day.number + 1]])
         const nextDay = this.days[day.number + 1]
 
         return this.#evalNextLesson(nextDay, daysDelta + 1)

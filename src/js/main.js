@@ -18,16 +18,10 @@ const clock               = new Clock(clockElement)
 setup()
 
 function setup() {
-    setupClock()
     setupWeekSelectorElement()
     setupCurrentWeekElement()
     setupMainElement()
     setupUpdate()
-}
-
-function setupClock() {
-    setInterval(() => clock.redraw(), 500)
-    clock.redraw()
 }
 
 function setupWeekSelectorElement() {
