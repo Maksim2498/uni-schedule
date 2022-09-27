@@ -17,7 +17,7 @@ export default class WeekSelector {
         this.number                = Week.number
         this.element.selectedIndex = this.number 
 
-        this.element.addEventListener("change", e => this.number = e.target.value)
+        this.element.addEventListener("change", e => this.number = e.target.value - 1)
     }
 
     get number() {
