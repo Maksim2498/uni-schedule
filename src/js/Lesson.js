@@ -53,7 +53,7 @@ export default class Lesson {
                 return i
         }
 
-        return 0
+        return 7
     }
 
     get current() {
