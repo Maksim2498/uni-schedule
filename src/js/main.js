@@ -5,9 +5,6 @@ import Week         from "./Week.js"
 import Weeks        from "./Weeks.js"
 import WeekSelector from "./WeekSelector.js"
 
-if (Week.number >= Week.COUNT)
-    alert("Расписание устарело")
-
 const clock        = new Clock("clock")
 const currentWeek  = new CurrentWeek("current-week")
 const weekSelector = new WeekSelector("week-selector")
@@ -16,3 +13,6 @@ const updater      = new Updater({ currentWeek, weeks })
 
 // For debug purposes
 export { clock, currentWeek, weekSelector, weeks, updater }
+
+if (Week.number >= Week.COUNT)
+    alert("Расписание устарело")

@@ -3,6 +3,8 @@ import Week from "./Week.js"
 import { clamp } from "./emath.js"
 
 export default class WeekSelector {
+    #number
+
     constructor(weekSelectorId) {
         this.element = document.getElementById(weekSelectorId)
 
@@ -15,6 +17,14 @@ export default class WeekSelector {
         this.number                = Week.number
         this.element.selectedIndex = this.number 
 
-        this.element.addEventListener("change", e => this.number = clamp(e.target.value - 1, 0, Week.number - 1))
+        this.element.addEventListener("change", e => this.number = e.target.value)
+    }
+
+    get number() {
+        return this.#number
+    }
+
+    set number(val) {
+        this.#number = clamp(val, 0, Week.COUNT - 1)
     }
 }
