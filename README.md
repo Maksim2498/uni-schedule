@@ -2,9 +2,9 @@
 
 ![Preview](/images/preview.png)
 
-## Index
+## Table of Contents
 
-- [Index](#index);
+- [Table of Contents](#table-of-contents);
 - [About](#about);
 - [Running](#running).
 
