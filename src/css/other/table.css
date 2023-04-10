@@ -15,12 +15,6 @@ td, th {
     border-radius: .5rem
 }
 
-table {
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%)
-}
-
 tr:nth-child(even) td, th {
     background-color: var(--even-background-color)
 }
